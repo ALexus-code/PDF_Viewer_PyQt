@@ -72,11 +72,8 @@ class Ui_MainWindow(QMainWindow):
         self.n = 0
 
     def clearJPGfiles(self):
-        print('в методе чистки файлов картинок')
         for file in os.listdir(os.getcwd ()):
-            print(file)
             if file.endswith('.jpg'):
-                print(file)
                 os.remove(file)
 
     def closeEvent(self, event):
