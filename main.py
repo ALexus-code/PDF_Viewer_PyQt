@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QLabel
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPixmap, QPainter, QPen
 from pdf2image import convert_from_path
@@ -67,15 +67,30 @@ class Ui_MainWindow(QMainWindow):
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
-
+        self.clearJPGfiles()
         self.add_functions()
         self.n = 0
 
-    def closeEvent(self, *args, **kwargs):
-        super(QMainWindow, self).closeEvent(*args, **kwargs)
-        for file in os.listdir('/'):
+    def clearJPGfiles(self):
+        print('в методе чистки файлов картинок')
+        for file in os.listdir(os.getcwd ()):
+            print(file)
             if file.endswith('.jpg'):
+                print(file)
                 os.remove(file)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("You sure?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            self.clearJPGfiles()
+            event.accept()
+        else:
+            event.ignore()
+
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -91,9 +106,7 @@ class Ui_MainWindow(QMainWindow):
         self.btn_left.clicked.connect(self.left)
 
     def open_file(self):
-        for file in os.listdir('/'):
-            if file.endswith('.jpg'):
-                os.remove(file)
+        self.clearJPGfiles()
         c = 0
         fname = QFileDialog.getOpenFileName(self, 'Open File', '/', 'PDF File (*.pdf)')[0]
         path = "{}" "".format(fname)
@@ -137,9 +150,9 @@ class Ui_MainWindow(QMainWindow):
 def application():
     app = QApplication(sys.argv)
     window = Ui_MainWindow()
-
     window.show()
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     application()
