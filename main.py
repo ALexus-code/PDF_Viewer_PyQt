@@ -73,7 +73,7 @@ class Ui_MainWindow(QMainWindow):
 
     def closeEvent(self, *args, **kwargs):
         super(QMainWindow, self).closeEvent(*args, **kwargs)
-        for file in os.listdir('/Users/alekseivaganov/PycharmProjects/TEST_NVI/'):
+        for file in os.listdir('/'):
             if file.endswith('.jpg'):
                 os.remove(file)
 
@@ -91,11 +91,11 @@ class Ui_MainWindow(QMainWindow):
         self.btn_left.clicked.connect(self.left)
 
     def open_file(self):
-        for file in os.listdir('/Users/alekseivaganov/PycharmProjects/TEST_NVI/'):
+        for file in os.listdir('/'):
             if file.endswith('.jpg'):
                 os.remove(file)
         c = 0
-        fname = QFileDialog.getOpenFileName(self, 'Open File', '/Users/alekseivaganov/PycharmProjects/TEST_NVI/', 'PDF File (*.pdf)')[0]
+        fname = QFileDialog.getOpenFileName(self, 'Open File', '/', 'PDF File (*.pdf)')[0]
         path = "{}" "".format(fname)
         try:
             images = convert_from_path(path)
