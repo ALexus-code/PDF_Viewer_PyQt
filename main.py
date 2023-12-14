@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog,
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPixmap, QPainter, QPen
 from pdf2image import convert_from_path
+from PIL import Image
 import os
 import sys
 
@@ -39,13 +40,13 @@ class Ui_MainWindow(QMainWindow):
         super(Ui_MainWindow, self).__init__()
 
         self.setObjectName("MainWindow")
-        self.resize(800, 1100)
+        self.resize(827, 1270)
         self.setStyleSheet("background-color: rgb(255, 235, 160);color: rgb(10, 10, 10);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
         self.label = MyLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 50, 780, 1100))
+        self.label.setGeometry(QtCore.QRect(10, 50, 827, 1170))
         self.label.setStyleSheet("background-color: rgb(242, 255, 223);color: rgb(10, 10, 10);")
         self.label.setObjectName("label")
 
@@ -71,6 +72,7 @@ class Ui_MainWindow(QMainWindow):
         self.add_functions()
         self.n = 0
         self.pages = 0
+        self.size
 
     def clearJPGfiles(self):
         for file in os.listdir(os.getcwd ()):
@@ -115,8 +117,12 @@ class Ui_MainWindow(QMainWindow):
                 i.save(str(c) + ".jpg")
                 c = c + 1
 
+            with Image.open("0.jpg") as img:
+                self.width = img.width
+                self.height = img.height
+                print(img.width, img.height)
             pixmap = QPixmap("0.jpg")
-            smaller_pixmap = pixmap.scaled(780, 1100)
+            smaller_pixmap = pixmap.scaled(int(self.width/2), int(self.height/2))
             self.label.setPixmap(smaller_pixmap)
             self.label.resize(pixmap.width(), pixmap.height())
             self.label.setAlignment(QtCore.Qt.AlignLeft)
