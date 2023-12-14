@@ -70,6 +70,7 @@ class Ui_MainWindow(QMainWindow):
         self.clearJPGfiles()
         self.add_functions()
         self.n = 0
+        self.pages = 0
 
     def clearJPGfiles(self):
         for file in os.listdir(os.getcwd ()):
@@ -109,6 +110,7 @@ class Ui_MainWindow(QMainWindow):
         path = "{}" "".format(fname)
         try:
             images = convert_from_path(path)
+            self.pages = len(images)
             for i in images:
                 i.save(str(c) + ".jpg")
                 c = c + 1
@@ -123,26 +125,30 @@ class Ui_MainWindow(QMainWindow):
             print("No such file")
 
     def right(self):
-        try:
-            pixmap = QPixmap(str(self.n + 1) + ".jpg")
-            smaller_pixmap = pixmap.scaled(780, 1100)
-            self.label.setPixmap(smaller_pixmap)
-            self.label.setAlignment(QtCore.Qt.AlignLeft)
-            self.n = self.n + 1
-        except:
-            self.label.setText("Конец")
-            self.label.setAlignment(QtCore.Qt.AlignLeft)
+        if self.n+1 != self.pages:
+            try:
+                pixmap = QPixmap(str(self.n + 1) + ".jpg")
+                smaller_pixmap = pixmap.scaled(780, 1100)
+                self.label.setPixmap(smaller_pixmap)
+                self.label.setAlignment(QtCore.Qt.AlignLeft)
+                self.n = self.n + 1
+            except:
+                print("Конец")
+        else:
+            print(self.pages, self.n)
 
     def left(self):
-        try:
-            pixmap = QPixmap(str(self.n - 1) + ".jpg")
-            smaller_pixmap = pixmap.scaled(780, 1100)
-            self.label.setPixmap(smaller_pixmap)
-            self.label.setAlignment(QtCore.Qt.AlignLeft)
-            self.n = self.n - 1
-        except:
-            self.label.setText("Конец")
-            self.label.setAlignment(QtCore.Qt.AlignLeft)
+        if self.n > 0:
+            try:
+                pixmap = QPixmap(str(self.n - 1) + ".jpg")
+                smaller_pixmap = pixmap.scaled(780, 1100)
+                self.label.setPixmap(smaller_pixmap)
+                self.label.setAlignment(QtCore.Qt.AlignLeft)
+                self.n = self.n - 1
+            except:
+                print("Конец")
+        else:
+            print(self.pages, self.n)
 
 def application():
     app = QApplication(sys.argv)
