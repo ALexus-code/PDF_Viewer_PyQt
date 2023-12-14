@@ -30,7 +30,7 @@ class MyLabel(QLabel):
 
     def paintEvent(self, event):
         super().paintEvent(event)
-        rect = QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
+        rect = QRect(self.x0, self.y0, self.x1-self.x0, self.y1-self.y0)
         painter = QPainter(self)
         painter.setPen(QPen(Qt.red, 2, Qt.SolidLine))
         painter.drawRect(rect)
