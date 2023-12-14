@@ -120,12 +120,12 @@ class Ui_MainWindow(QMainWindow):
             with Image.open("0.jpg") as img:
                 self.width = img.width
                 self.height = img.height
-                print(img.width, img.height)
             pixmap = QPixmap("0.jpg")
             smaller_pixmap = pixmap.scaled(int(self.width/2), int(self.height/2))
             self.label.setPixmap(smaller_pixmap)
             self.label.resize(pixmap.width(), pixmap.height())
             self.label.setAlignment(QtCore.Qt.AlignLeft)
+            self.resize(int(self.width/2) + 50, int(self.height/2) + 100)
 
         except FileNotFoundError:
             print("No such file")
@@ -133,8 +133,11 @@ class Ui_MainWindow(QMainWindow):
     def right(self):
         if self.n+1 != self.pages:
             try:
+                with Image.open(str(self.n + 1) + ".jpg") as img:
+                    self.width = img.width
+                    self.height = img.height
                 pixmap = QPixmap(str(self.n + 1) + ".jpg")
-                smaller_pixmap = pixmap.scaled(780, 1100)
+                smaller_pixmap = pixmap.scaled(int(self.width/2), int(self.height/2))
                 self.label.setPixmap(smaller_pixmap)
                 self.label.setAlignment(QtCore.Qt.AlignLeft)
                 self.n = self.n + 1
@@ -146,8 +149,11 @@ class Ui_MainWindow(QMainWindow):
     def left(self):
         if self.n > 0:
             try:
+                with Image.open(str(self.n - 1) + ".jpg") as img:
+                    self.width = img.width
+                    self.height = img.height
                 pixmap = QPixmap(str(self.n - 1) + ".jpg")
-                smaller_pixmap = pixmap.scaled(780, 1100)
+                smaller_pixmap = pixmap.scaled(int(self.width/2), int(self.height/2))
                 self.label.setPixmap(smaller_pixmap)
                 self.label.setAlignment(QtCore.Qt.AlignLeft)
                 self.n = self.n - 1
